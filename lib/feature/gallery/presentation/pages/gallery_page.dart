@@ -80,9 +80,7 @@ class _GalleryPageState extends State<GalleryPage> {
 
     return Row(
       children: [
-        // _desktopSpace(isDesktop),
         Expanded(
-          flex: 1,
           child: SingleChildScrollView(
             controller: _scrollController,
             child: Padding(
@@ -105,7 +103,6 @@ class _GalleryPageState extends State<GalleryPage> {
             ),
           ),
         ),
-        // _desktopSpace(isDesktop),
       ],
     );
   }
