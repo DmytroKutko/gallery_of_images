@@ -73,24 +73,20 @@ class _GalleryPageState extends State<GalleryPage> {
       ),
     );
   }
-
-  Widget _desktopSpace(bool isDesktop) {
-    return isDesktop ? const Spacer(flex: 2) : const SizedBox();
-  }
-
+  
   Widget _onSuccessState(List<ImageEntity> images) {
     final width = MediaQuery.of(context).size.width;
     final isDesktop = Responsive.isDesktop(context);
 
     return Row(
       children: [
-        _desktopSpace(isDesktop),
+        // _desktopSpace(isDesktop),
         Expanded(
-          flex: 8,
+          flex: 1,
           child: SingleChildScrollView(
             controller: _scrollController,
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              padding:  EdgeInsets.symmetric(horizontal: isDesktop ? width * 0.12 : 16),
               child: Column(
                 children: [
                   const SizedBox(height: 24),
@@ -98,7 +94,7 @@ class _GalleryPageState extends State<GalleryPage> {
                     leading: const Icon(Icons.search),
                     hintText: 'Search any images',
                     constraints: BoxConstraints(
-                      maxWidth: isDesktop ? width / 2 : width / 1.3,
+                      maxWidth: isDesktop ? width / 1.6 : width / 1.3,
                       minHeight: 48,
                     ),
                   ),
@@ -109,7 +105,7 @@ class _GalleryPageState extends State<GalleryPage> {
             ),
           ),
         ),
-        _desktopSpace(isDesktop),
+        // _desktopSpace(isDesktop),
       ],
     );
   }

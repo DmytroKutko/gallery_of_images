@@ -11,9 +11,10 @@ class ImagesStaggeredGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isMobile = Responsive.isMobile(context);
+    final isTablet = Responsive.isTablet(context);
 
     return StaggeredGrid.count(
-      crossAxisCount: isMobile ? 2 : 3,
+      crossAxisCount: isMobile ? 2 : isTablet ? 3 : 4,
       mainAxisSpacing: 12,
       crossAxisSpacing: 12,
       children: [

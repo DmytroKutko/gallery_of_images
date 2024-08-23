@@ -6,39 +6,46 @@ class ImageTile extends StatelessWidget {
   final String imageUrl;
   final int likesCount;
   final int commentsCount;
-  const ImageTile({super.key, required this.imageUrl, required this.likesCount, required this.commentsCount});
+  const ImageTile(
+      {super.key,
+      required this.imageUrl,
+      required this.likesCount,
+      required this.commentsCount});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => _showPhotoView(context),
-      child: Stack(
-        alignment: Alignment.bottomCenter,
-        children: [
-          Image.network(
-            imageUrl,
-            fit: BoxFit.cover,
-          ),
-          Container(
-            height: 38,
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.bottomCenter,
-                end: Alignment.topCenter,
-                colors: [
-                  Colors.black45,
-                  Colors.transparent,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(8),
+        child: Stack(
+          alignment: Alignment.bottomCenter,
+          children: [
+            Image.network(
+              imageUrl,
+              fit: BoxFit.cover,
+            ),
+            Container(
+              height: 38,
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
+                  colors: [
+                    Colors.black45,
+                    Colors.transparent,
+                  ],
+                ),
+              ),
+              child: Row(
+                children: [
+                  _socialIcon(Icons.favorite, likesCount),
+                  _socialIcon(Icons.comment, commentsCount),
                 ],
               ),
             ),
-            child: Row(
-              children: [
-                _socialIcon(Icons.favorite, likesCount),
-                _socialIcon(Icons.comment, commentsCount),
-              ],
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
