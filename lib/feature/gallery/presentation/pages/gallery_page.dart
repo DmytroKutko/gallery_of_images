@@ -73,7 +73,7 @@ class _GalleryPageState extends State<GalleryPage> {
       ),
     );
   }
-  
+
   Widget _onSuccessState(List<ImageEntity> images) {
     final width = MediaQuery.of(context).size.width;
     final isDesktop = Responsive.isDesktop(context);
@@ -84,7 +84,8 @@ class _GalleryPageState extends State<GalleryPage> {
           child: SingleChildScrollView(
             controller: _scrollController,
             child: Padding(
-              padding:  EdgeInsets.symmetric(horizontal: isDesktop ? width * 0.12 : 16),
+              padding: EdgeInsets.symmetric(
+                  horizontal: isDesktop ? width * 0.12 : 16),
               child: Column(
                 children: [
                   const SizedBox(height: 24),
