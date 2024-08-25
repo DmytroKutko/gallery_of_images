@@ -4,6 +4,8 @@ import 'package:gallery_of_images/core/utils/responsive.dart';
 import 'package:gallery_of_images/feature/gallery/domain/entity/image_entity.dart';
 import 'package:gallery_of_images/feature/gallery/presentation/bloc/gallery_bloc.dart';
 import 'package:gallery_of_images/feature/gallery/presentation/widgets/images_staggered_grid.dart';
+import 'package:gallery_of_images/feature/service_locator.dart';
+import 'package:go_router/go_router.dart';
 
 class GalleryPage extends StatefulWidget {
   const GalleryPage({super.key});
@@ -13,7 +15,7 @@ class GalleryPage extends StatefulWidget {
 }
 
 class _GalleryPageState extends State<GalleryPage> {
-  final GalleryBloc _bloc = GalleryBloc();
+  final GalleryBloc _bloc = sl();
   final ScrollController _scrollController = ScrollController();
 
   @override
@@ -54,6 +56,9 @@ class _GalleryPageState extends State<GalleryPage> {
 
               case GallerySuccess _:
                 return _onSuccessState(_bloc.list);
+
+              case GalleryError _:
+                return _onErrorState();
 
               default:
                 return const SizedBox();
@@ -98,13 +103,22 @@ class _GalleryPageState extends State<GalleryPage> {
                     ),
                   ),
                   const SizedBox(height: 24),
-                  ImagesStaggeredGrid(images: images)
+                  ImagesStaggeredGrid(
+                    images: images,
+                    onImageClick: (id) => context.push("/image/$id"),
+                  ),
                 ],
               ),
             ),
           ),
         ),
       ],
+    );
+  }
+
+  Widget _onErrorState() {
+    return const Center(
+      child: Text("Error"),
     );
   }
 }

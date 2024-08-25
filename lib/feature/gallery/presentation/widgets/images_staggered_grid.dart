@@ -6,7 +6,8 @@ import 'package:gallery_of_images/feature/gallery/presentation/widgets/image_til
 
 class ImagesStaggeredGrid extends StatelessWidget {
   final List<ImageEntity> images;
-  const ImagesStaggeredGrid({super.key, required this.images});
+  final void Function(int id) onImageClick;
+  const ImagesStaggeredGrid({super.key, required this.images, required this.onImageClick});
 
   @override
   Widget build(BuildContext context) {
@@ -19,10 +20,13 @@ class ImagesStaggeredGrid extends StatelessWidget {
       crossAxisSpacing: 12,
       children: [
         for (var imageEntity in images)
-          ImageTile(
-            imageUrl: imageEntity.galleryUrl,
-            likesCount: imageEntity.likesCount,
-            commentsCount: imageEntity.commentsCount,
+          GestureDetector(
+            onTap: () => onImageClick(imageEntity.id),
+            child: ImageTile(
+              imageUrl: imageEntity.galleryUrl,
+              likesCount: imageEntity.likesCount,
+              commentsCount: imageEntity.commentsCount,
+            ),
           ),
       ],
     );

@@ -13,12 +13,6 @@ abstract class Client {
   Future<HttpResponse<ImagesResponse>> getImages({
     @Query('key') required String apiKey,
     @Query('page') required int page,
-  });
-
-  @GET('/api/')
-  Future<HttpResponse<ImagesResponse>> getImagesFromSearch({
-    @Query('key') required String apiKey,
-    @Query('page') required int page,
-    @Query('q') required String q,
+    @Query('q') String? q,
   });
 }

@@ -29,6 +29,7 @@ List<ImageEntity> generateImageEntities() {
 
   return imageUrls.map((url) {
     return ImageEntity(
+      id: 0,
       galleryUrl: url,
       fullScreenUrl: url,
       likesCount: random.nextInt(100),

@@ -14,34 +14,13 @@ class ImagesRepositoryImpl extends ImagesRepository {
   ImagesRepositoryImpl({required this.client});
 
   @override
-  Future<DataState<List<ImageEntity>>> getImages(int page) async {
-    final data = await client.getImages(apiKey: key, page: page);
+  Future<DataState<List<ImageEntity>>> getImages(int page, String? q) async {
+    final data = await client.getImages(apiKey: key, page: page, q: q);
     if (data.response.statusCode == HttpStatus.ok) {
       final images = data.data.hits!
           .map((value) => ImageEntity(
-                galleryUrl: value.previewUrl ?? "",
-                fullScreenUrl: value.largeImageUrl ?? "",
-                likesCount: value.likes ?? 0,
-                commentsCount: value.comments ?? 0,
-              ))
-          .toList();
-      return DataSuccess(images);
-    }
-    return DataFailed(
-      DioException(
-        message: data.response.statusMessage,
-        requestOptions: data.response.requestOptions,
-      ),
-    );
-  }
-
-  @override
-  Future<DataState<List<ImageEntity>>> getImagesFromSearch(int page, String q) async {
-    final data = await client.getImagesFromSearch(apiKey: key, page: page, q: q);
-    if (data.response.statusCode == HttpStatus.ok) {
-      final images = data.data.hits!
-          .map((value) => ImageEntity(
-                galleryUrl: value.previewUrl ?? "",
+                id: value.id!,
+                galleryUrl: value.webformatUrl ?? "",
                 fullScreenUrl: value.largeImageUrl ?? "",
                 likesCount: value.likes ?? 0,
                 commentsCount: value.comments ?? 0,
