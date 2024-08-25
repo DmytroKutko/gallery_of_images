@@ -1,5 +1,4 @@
 import 'package:gallery_of_images/feature/gallery/presentation/pages/gallery_page.dart';
-import 'package:gallery_of_images/feature/gallery/presentation/pages/image_page.dart';
 import 'package:go_router/go_router.dart';
 
 GoRouter router = GoRouter(
@@ -8,13 +7,6 @@ GoRouter router = GoRouter(
     GoRoute(
       path: "/gallery",
       builder: (context, state) => const GalleryPage(),
-    ),
-    GoRoute(
-      path: "/image/:id",
-      builder: (context, state) {
-        final int id = int.parse(state.pathParameters['id']!);
-        return ImagePage(id: id);
-      },
     ),
   ],
 );

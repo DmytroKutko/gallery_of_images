@@ -1,7 +1,5 @@
 
 import 'package:flutter/material.dart';
-import 'package:photo_view/photo_view.dart';
-import 'package:photo_view/photo_view_gallery.dart';
 
 class ImageTile extends StatelessWidget {
   final String imageUrl;
@@ -49,16 +47,6 @@ class ImageTile extends StatelessWidget {
     );
   }
 
-  void _showPhotoView(BuildContext context) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => PhotoViewGalleryScreen(
-          imageUrl: imageUrl,
-        ),
-      ),
-    );
-  }
-
   Widget _socialIcon(IconData icon, int count) {
     return Expanded(
       child: Row(
@@ -75,41 +63,6 @@ class ImageTile extends StatelessWidget {
             style: const TextStyle(color: Colors.white),
           )
         ],
-      ),
-    );
-  }
-}
-
-class PhotoViewGalleryScreen extends StatelessWidget {
-  final String imageUrl;
-
-  const PhotoViewGalleryScreen({super.key, required this.imageUrl});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.all(24),
-        child: FloatingActionButton(
-          onPressed: () => Navigator.pop(context),
-          child: const Icon(Icons.arrow_back_ios_new),
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
-      body: PhotoViewGallery.builder(
-        itemCount: 1,
-        builder: (context, index) {
-          return PhotoViewGalleryPageOptions(
-            imageProvider: NetworkImage(imageUrl),
-            minScale: PhotoViewComputedScale.contained,
-            maxScale: PhotoViewComputedScale.covered * 2,
-          );
-        },
-        scrollPhysics: const BouncingScrollPhysics(),
-        backgroundDecoration: const BoxDecoration(
-          color: Colors.black,
-        ),
-        pageController: PageController(),
       ),
     );
   }

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gallery_of_images/core/utils/responsive.dart';
 import 'package:gallery_of_images/feature/gallery/presentation/bloc/gallery/gallery_bloc.dart';
 import 'package:gallery_of_images/feature/gallery/presentation/widgets/images_staggered_grid.dart';
+import 'package:gallery_of_images/feature/gallery/presentation/widgets/photo_view.dart';
 import 'package:gallery_of_images/feature/service_locator.dart';
 import 'package:go_router/go_router.dart';
 
@@ -35,37 +36,11 @@ class _GalleryPageState extends State<GalleryPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: BlocConsumer<GalleryBloc, GalleryState>(
-          bloc: _bloc,
-          listenWhen: (previous, current) => current is GalleryListener,
-          buildWhen: (previous, current) => current is! GalleryListener,
-          listener: (context, state) {
-            if (state is GalleryLoadMoreSuccessState) {
-              setState(() {});
-            }
-          },
-          builder: (context, state) {
-            if (state is GallerySuccess) {
-              return _onSuccessState();
-            } else if (state is GalleryError) {
-              return _onErrorState(state.message);
-            }
-            return const SizedBox();
-          },
-        ),
-      ),
-    );
-  }
-
-  Widget _onSuccessState() {
     final width = MediaQuery.of(context).size.width;
     final isDesktop = Responsive.isDesktop(context);
-
-    return Row(
-      children: [
-        Expanded(
+    return Scaffold(
+      body: SafeArea(
+        child: Expanded(
           flex: 1,
           child: SingleChildScrollView(
             key: const Key("SingleChildScrollView"),
@@ -84,18 +59,47 @@ class _GalleryPageState extends State<GalleryPage> {
                       maxWidth: isDesktop ? width / 1.6 : width / 1.3,
                       minHeight: 48,
                     ),
+                    onSubmitted: (value) =>
+                        _bloc.add(GallerySearchEvent(query: value)),
                   ),
                   const SizedBox(height: 24),
-                  ImagesStaggeredGrid(
-                    images: _bloc.images,
-                    onImageClick: (id) {
-                      context.push("/image/$id");
+                  BlocConsumer<GalleryBloc, GalleryState>(
+                    bloc: _bloc,
+                    listenWhen: (previous, current) =>
+                        current is GalleryListener,
+                    buildWhen: (previous, current) =>
+                        current is! GalleryListener,
+                    listener: (context, state) {
+                      if (state is GalleryLoadMoreSuccessState) {
+                        setState(() {});
+                      }
+                    },
+                    builder: (context, state) {
+                      if (state is GallerySuccess) {
+                        return _onSuccessState();
+                      } else if (state is GalleryError) {
+                        return _onErrorState(state.message);
+                      }
+                      return const SizedBox();
                     },
                   ),
                 ],
               ),
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _onSuccessState() {
+    return Column(
+      children: [
+        ImagesStaggeredGrid(
+          images: _bloc.images,
+          onImageClick: (imageUrl) {
+            _showPhotoView(context, imageUrl);
+          },
         ),
       ],
     );
@@ -118,5 +122,15 @@ class _GalleryPageState extends State<GalleryPage> {
         _hasPagingCalled = false;
       }
     }
+  }
+
+  void _showPhotoView(BuildContext context, imageUrl) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return PhotoViewGalleryScreen(imageUrl: imageUrl);
+      },
+      barrierDismissible: true,
+    );
   }
 }

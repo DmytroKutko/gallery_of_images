@@ -6,7 +6,7 @@ import 'package:gallery_of_images/feature/gallery/presentation/widgets/image_til
 
 class ImagesStaggeredGrid extends StatelessWidget {
   final List<ImageEntity> images;
-  final void Function(int id) onImageClick;
+  final void Function(String imageUrl) onImageClick;
   const ImagesStaggeredGrid({super.key, required this.images, required this.onImageClick});
 
   @override
@@ -21,7 +21,7 @@ class ImagesStaggeredGrid extends StatelessWidget {
       children: [
         for (var imageEntity in images)
           GestureDetector(
-            onTap: () => onImageClick(imageEntity.id),
+            onTap: () => onImageClick(imageEntity.fullScreenUrl),
             child: ImageTile(
               imageUrl: imageEntity.galleryUrl,
               likesCount: imageEntity.likesCount,
