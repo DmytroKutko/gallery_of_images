@@ -14,7 +14,11 @@ class _ImagePageState extends State<ImagePage> {
     return Scaffold(
       body: SafeArea(
         child: Center(
-          child: Text("Image page ${widget.id}"),
+          child: Column(
+            children: [
+              Text("Image page ${widget.id}"),
+            ],
+          ),
         ),
       ),
     );

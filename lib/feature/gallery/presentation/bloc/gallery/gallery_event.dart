@@ -4,3 +4,4 @@ part of 'gallery_bloc.dart';
 sealed class GalleryEvent {}
 
 class GalleryInitialEvent extends GalleryEvent {}
+class GalleryLoadMoreEvent extends GalleryEvent {}

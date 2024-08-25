@@ -15,7 +15,7 @@ class ImagesRepositoryImpl extends ImagesRepository {
 
   @override
   Future<DataState<List<ImageEntity>>> getImages(int page, String? q) async {
-    final data = await client.getImages(apiKey: key, page: page, q: q);
+    final data = await client.getImages(apiKey: key, page: page, q: q, perPage: 20);
     if (data.response.statusCode == HttpStatus.ok) {
       final images = data.data.hits!
           .map((value) => ImageEntity(

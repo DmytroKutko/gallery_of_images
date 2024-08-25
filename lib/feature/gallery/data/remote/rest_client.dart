@@ -14,5 +14,6 @@ abstract class Client {
     @Query('key') required String apiKey,
     @Query('page') required int page,
     @Query('q') String? q,
+    @Query('per_page') int? perPage,
   });
 }

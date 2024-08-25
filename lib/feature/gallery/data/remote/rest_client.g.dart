@@ -25,12 +25,14 @@ class _Client implements Client {
     required String apiKey,
     required int page,
     String? q,
+    int? perPage,
   }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'key': apiKey,
       r'page': page,
       r'q': q,
+      r'per_page': perPage,
     };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};

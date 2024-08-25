@@ -10,15 +10,17 @@ part 'gallery_event.dart';
 part 'gallery_state.dart';
 
 class GalleryBloc extends Bloc<GalleryEvent, GalleryState> {
-  final List<ImageEntity> list = [];
   final GetImagesUsecase getImagesUsecase;
   int page = 1;
 
+  final List<ImageEntity> images = [];
+
   GalleryBloc({required this.getImagesUsecase}) : super(GalleryInitial()) {
     on<GalleryInitialEvent>(galleryInitialEvent);
+    on<GalleryLoadMoreEvent>(galleryLoadMoreEvent);
   }
 
-  FutureOr<void> galleryInitialEvent(
+  Future<void> galleryInitialEvent(
       GalleryInitialEvent event, Emitter<GalleryState> emit) async {
     emit(GalleryLoading());
     final response =
@@ -26,7 +28,7 @@ class GalleryBloc extends Bloc<GalleryEvent, GalleryState> {
 
     if (response is DataSuccess) {
       if (response.data!.isNotEmpty) {
-        list.addAll(response.data!);
+        images.addAll(response.data!);
         emit(GallerySuccess());
       } else {
         emit(GalleryError(message: "List is empty"));
@@ -34,6 +36,29 @@ class GalleryBloc extends Bloc<GalleryEvent, GalleryState> {
     } else {
       emit(GalleryError(
           message: response.exception?.message ?? "Error loading content"));
+    }
+  }
+
+  Future<void> galleryLoadMoreEvent(
+      GalleryLoadMoreEvent event, Emitter<GalleryState> emit) async {
+    final nextPage = page + 1;
+    final response =
+        await getImagesUsecase(params: GetImagesParams(page: nextPage));
+
+    if (response is DataSuccess) {
+      page = nextPage;
+      if (response.data!.isNotEmpty) {
+        images.addAll(response.data!);
+        emit(GalleryLoadMoreSuccessState());
+      } else {
+        emit(GalleryError(message: "No more data available"));
+      }
+    } else {
+      emit(
+        GalleryError(
+            message:
+                response.exception?.message ?? "Error loading more content"),
+      );
     }
   }
 }

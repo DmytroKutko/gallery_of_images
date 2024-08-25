@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
@@ -48,15 +49,15 @@ class ImageTile extends StatelessWidget {
     );
   }
 
-  // void _showPhotoView(BuildContext context) {
-  //   Navigator.of(context).push(
-  //     MaterialPageRoute(
-  //       builder: (context) => PhotoViewGalleryScreen(
-  //         imageUrl: imageUrl,
-  //       ),
-  //     ),
-  //   );
-  // }
+  void _showPhotoView(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => PhotoViewGalleryScreen(
+          imageUrl: imageUrl,
+        ),
+      ),
+    );
+  }
 
   Widget _socialIcon(IconData icon, int count) {
     return Expanded(
