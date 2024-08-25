@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:gallery_of_images/core/constants/constants.dart';
 import 'package:gallery_of_images/core/resources/data_state.dart';
 import 'package:gallery_of_images/feature/gallery/data/remote/rest_client.dart';
 import 'package:gallery_of_images/feature/gallery/domain/entity/image_entity.dart';
@@ -9,13 +9,13 @@ import 'package:gallery_of_images/feature/gallery/domain/repository/images_repos
 
 class ImagesRepositoryImpl extends ImagesRepository {
   final Client client;
-  final String key = dotenv.env['API_KEY']!;
 
   ImagesRepositoryImpl({required this.client});
 
   @override
   Future<DataState<List<ImageEntity>>> getImages(int page, String? q) async {
-    final data = await client.getImages(apiKey: key, page: page, q: q, perPage: 20);
+    final data =
+        await client.getImages(apiKey: api_key, page: page, q: q, perPage: 20);
     if (data.response.statusCode == HttpStatus.ok) {
       final images = data.data.hits!
           .map((value) => ImageEntity(

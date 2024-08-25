@@ -49,9 +49,10 @@ class GalleryBloc extends Bloc<GalleryEvent, GalleryState> {
         params: GetImagesParams(page: nextPage, q: query));
 
     if (response is DataSuccess) {
-      page = nextPage;
       if (response.data!.isNotEmpty) {
+        page = nextPage;
         images.addAll(response.data!);
+        images.toSet().toList();
         emit(GalleryLoadMoreSuccessState());
       }
     } else {

@@ -40,51 +40,48 @@ class _GalleryPageState extends State<GalleryPage> {
     final isDesktop = Responsive.isDesktop(context);
     return Scaffold(
       body: SafeArea(
-        child: Expanded(
-          flex: 1,
-          child: SingleChildScrollView(
-            key: const Key("SingleChildScrollView"),
-            controller: _scrollController,
-            child: Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: isDesktop ? width * 0.12 : 16,
-              ),
-              child: Column(
-                children: [
-                  const SizedBox(height: 24),
-                  SearchBar(
-                    leading: const Icon(Icons.search),
-                    hintText: 'Search any images',
-                    constraints: BoxConstraints(
-                      maxWidth: isDesktop ? width / 1.6 : width / 1.3,
-                      minHeight: 48,
-                    ),
-                    onSubmitted: (value) =>
-                        _bloc.add(GallerySearchEvent(query: value)),
+        child: SingleChildScrollView(
+          key: const Key("SingleChildScrollView"),
+          controller: _scrollController,
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: isDesktop ? width * 0.12 : 16,
+            ),
+            child: Column(
+              children: [
+                const SizedBox(height: 24),
+                SearchBar(
+                  leading: const Icon(Icons.search),
+                  hintText: 'Search any images',
+                  constraints: BoxConstraints(
+                    maxWidth: isDesktop ? width / 1.6 : width / 1.3,
+                    minHeight: 48,
                   ),
-                  const SizedBox(height: 24),
-                  BlocConsumer<GalleryBloc, GalleryState>(
-                    bloc: _bloc,
-                    listenWhen: (previous, current) =>
-                        current is GalleryListener,
-                    buildWhen: (previous, current) =>
-                        current is! GalleryListener,
-                    listener: (context, state) {
-                      if (state is GalleryLoadMoreSuccessState) {
-                        setState(() {});
-                      }
-                    },
-                    builder: (context, state) {
-                      if (state is GallerySuccess) {
-                        return _onSuccessState();
-                      } else if (state is GalleryError) {
-                        return _onErrorState(state.message);
-                      }
-                      return const SizedBox();
-                    },
-                  ),
-                ],
-              ),
+                  onSubmitted: (value) =>
+                      _bloc.add(GallerySearchEvent(query: value)),
+                ),
+                const SizedBox(height: 24),
+                BlocConsumer<GalleryBloc, GalleryState>(
+                  bloc: _bloc,
+                  listenWhen: (previous, current) =>
+                      current is GalleryListener,
+                  buildWhen: (previous, current) =>
+                      current is! GalleryListener,
+                  listener: (context, state) {
+                    if (state is GalleryLoadMoreSuccessState) {
+                      setState(() {});
+                    }
+                  },
+                  builder: (context, state) {
+                    if (state is GallerySuccess) {
+                      return _onSuccessState();
+                    } else if (state is GalleryError) {
+                      return _onErrorState(state.message);
+                    }
+                    return const SizedBox();
+                  },
+                ),
+              ],
             ),
           ),
         ),

@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:gallery_of_images/config/routes/router.dart';
 import 'package:gallery_of_images/config/theme/theme.dart';
 import 'package:gallery_of_images/feature/service_locator.dart';
 
 void main() async {
-  await dotenv.load(fileName: ".env");
   await initDependencies();
   runApp(const MyApp());
 }
