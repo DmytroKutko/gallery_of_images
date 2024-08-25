@@ -10,10 +10,10 @@ class PhotoViewGalleryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      backgroundColor: Colors.white, // Set the background color to white
-      insetPadding: EdgeInsets.zero, // Make the dialog fullscreen
+      backgroundColor: Colors.white, 
+      insetPadding: EdgeInsets.zero,
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.zero, // Remove circular borders
+        borderRadius: BorderRadius.zero,
       ),
       child: Stack(
         children: [
@@ -28,7 +28,7 @@ class PhotoViewGalleryScreen extends StatelessWidget {
             },
             scrollPhysics: const BouncingScrollPhysics(),
             backgroundDecoration: const BoxDecoration(
-              color: Colors.white, // Set background color to white
+              color: Colors.white,
             ),
             pageController: PageController(),
           ),
@@ -37,9 +37,9 @@ class PhotoViewGalleryScreen extends StatelessWidget {
             left: 24,
             child: FloatingActionButton(
               mini: true,
-              backgroundColor: Colors.black.withOpacity(0.7), // Adjust the color if needed
+              backgroundColor: Colors.black.withOpacity(0.7),
               onPressed: () => Navigator.pop(context),
-              child: const Icon(Icons.close, color: Colors.white), // Close icon color
+              child: const Icon(Icons.close, color: Colors.white),
             ),
           ),
         ],
