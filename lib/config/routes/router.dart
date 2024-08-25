@@ -2,10 +2,10 @@ import 'package:gallery_of_images/feature/gallery/presentation/pages/gallery_pag
 import 'package:go_router/go_router.dart';
 
 GoRouter router = GoRouter(
-  initialLocation: "/gallery",
+  initialLocation: "/demo-site/",
   routes: [
     GoRoute(
-      path: "/gallery",
+      path: "/demo-site/",
       builder: (context, state) => const GalleryPage(),
     ),
   ],
