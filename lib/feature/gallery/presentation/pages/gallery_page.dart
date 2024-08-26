@@ -5,7 +5,6 @@ import 'package:gallery_of_images/feature/gallery/presentation/bloc/gallery/gall
 import 'package:gallery_of_images/feature/gallery/presentation/widgets/images_staggered_grid.dart';
 import 'package:gallery_of_images/feature/gallery/presentation/widgets/photo_view.dart';
 import 'package:gallery_of_images/feature/service_locator.dart';
-import 'package:go_router/go_router.dart';
 
 class GalleryPage extends StatefulWidget {
   const GalleryPage({super.key});
@@ -58,15 +57,13 @@ class _GalleryPageState extends State<GalleryPage> {
                     minHeight: 48,
                   ),
                   onSubmitted: (value) =>
-                      _bloc.add(GallerySearchEvent(query: value)),
+                      _bloc.add(GallerySearchEvent(query: _formatQuery(value))),
                 ),
                 const SizedBox(height: 24),
                 BlocConsumer<GalleryBloc, GalleryState>(
                   bloc: _bloc,
-                  listenWhen: (previous, current) =>
-                      current is GalleryListener,
-                  buildWhen: (previous, current) =>
-                      current is! GalleryListener,
+                  listenWhen: (previous, current) => current is GalleryListener,
+                  buildWhen: (previous, current) => current is! GalleryListener,
                   listener: (context, state) {
                     if (state is GalleryLoadMoreSuccessState) {
                       setState(() {});
@@ -129,5 +126,14 @@ class _GalleryPageState extends State<GalleryPage> {
       },
       barrierDismissible: true,
     );
+  }
+
+  String _formatQuery(String value) {
+    final q = value
+        .trim()
+        .replaceAll(", ", "+")
+        .replaceAll(",", "+")
+        .replaceAll(" ", "+");
+    return q;
   }
 }
