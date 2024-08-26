@@ -18,6 +18,7 @@ class _GalleryPageState extends State<GalleryPage> {
   late final ScrollController _scrollController;
 
   bool _hasPagingCalled = false;
+  bool _isFabVisible = false;
 
   @override
   void initState() {
@@ -38,6 +39,7 @@ class _GalleryPageState extends State<GalleryPage> {
     final width = MediaQuery.of(context).size.width;
     final isDesktop = Responsive.isDesktop(context);
     return Scaffold(
+      floatingActionButton: _fab(),
       body: SafeArea(
         child: SingleChildScrollView(
           key: const Key("SingleChildScrollView"),
@@ -107,6 +109,16 @@ class _GalleryPageState extends State<GalleryPage> {
 
   void _onScroll() {
     if (_scrollController.hasClients) {
+      if (!_isFabVisible && _scrollController.position.pixels > 100) {
+        setState(() {
+          _isFabVisible = true;
+        });
+      } else if (_isFabVisible && _scrollController.position.pixels < 100) {
+        setState(() {
+          _isFabVisible = false;
+        });
+      }
+
       double distanceToEnd = _scrollController.position.maxScrollExtent -
           _scrollController.position.pixels;
       if (distanceToEnd <= 0 && !_hasPagingCalled) {
@@ -135,5 +147,19 @@ class _GalleryPageState extends State<GalleryPage> {
         .replaceAll(",", "+")
         .replaceAll(" ", "+");
     return q;
+  }
+
+  Widget _fab() {
+    return Visibility(
+      visible: _isFabVisible,
+      child: FloatingActionButton(
+        onPressed: () {
+          _scrollController.animateTo(0,
+              duration: const Duration(microseconds: 300),
+              curve: Curves.bounceIn);
+        },
+        child: const Icon(Icons.arrow_upward_outlined),
+      ),
+    );
   }
 }
